@@ -5,3 +5,5 @@ Materia: Programación en nuevas tecnologias 1
 Integrantes:
 
 Nicolás Ignacio Reyes Urrutia (Niru1990)
+Matias Perez (PerezMS)
+Matias Rodriguez (MatiasRodriguez)

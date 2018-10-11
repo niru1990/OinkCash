@@ -1,6 +1,6 @@
 # OinkCash
 Trabajo practico para gestión de gastos contables básicos
-Materia: Programación en nuevas tecnologias 1
+Materia: Programación en Nuevas Tecnologias 1
 
 Integrantes:
 

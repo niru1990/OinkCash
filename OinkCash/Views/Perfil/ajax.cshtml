@@ -1,0 +1,15 @@
+﻿@model IList<OinkCash.Models.CuentasPorUsuario>
+@{
+
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+@foreach (var c in Model)
+{
+    <li>@Html.Label(c.Cuenta.nombre) | @Html.Label(c.monto.ToString())</li>
+}
+
+<!--
+Fui a Buscar esta info al Servidor
+-->

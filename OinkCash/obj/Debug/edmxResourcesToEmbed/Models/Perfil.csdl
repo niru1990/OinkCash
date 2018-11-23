@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PerfilModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="CuentasPorUsuarios" Relationship="Self.FK_CuentasPorUsuario_AspNetUsers" FromRole="AspNetUsers" ToRole="CuentasPorUsuario" />
+    <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+    <NavigationProperty Name="Movimientos" Relationship="PerfilModel.FK_Movimientos_AspNetUsers" FromRole="AspNetUser" ToRole="Movimiento" />
+  </EntityType>
+  <EntityType Name="Cuenta">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idTipoCuenta" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="TiposCuenta" Relationship="Self.FK_Cuentas_TiposCuentas" FromRole="Cuentas" ToRole="TiposCuentas" />
+    <NavigationProperty Name="CuentasPorUsuarios" Relationship="Self.FK_CuentasPorUsuario_Cuentas" FromRole="Cuentas" ToRole="CuentasPorUsuario" />
+    <NavigationProperty Name="Movimientos" Relationship="PerfilModel.FK_Movimientos_Cuentas1" FromRole="Cuenta" ToRole="Movimiento" />
+    <NavigationProperty Name="Movimientos1" Relationship="PerfilModel.FK_Movimientos_Cuentas2" FromRole="Cuenta" ToRole="Movimiento" />
+  </EntityType>
+  <EntityType Name="CuentasPorUsuario">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+      <PropertyRef Name="idCuenta" />
+    </Key>
+    <Property Name="idUsuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="idCuenta" Type="Int64" Nullable="false" />
+    <Property Name="limite" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CuentasPorUsuario_AspNetUsers" FromRole="CuentasPorUsuario" ToRole="AspNetUsers" />
+    <NavigationProperty Name="Cuenta" Relationship="Self.FK_CuentasPorUsuario_Cuentas" FromRole="CuentasPorUsuario" ToRole="Cuentas" />
+    <Property Name="monto" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="TiposCuenta">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Cuentas" Relationship="Self.FK_Cuentas_TiposCuentas" FromRole="TiposCuentas" ToRole="Cuentas" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CuentasPorUsuario_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="CuentasPorUsuario" Type="Self.CuentasPorUsuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CuentasPorUsuario">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cuentas_TiposCuentas">
+    <End Role="TiposCuentas" Type="Self.TiposCuenta" Multiplicity="1" />
+    <End Role="Cuentas" Type="Self.Cuenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TiposCuentas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Cuentas">
+        <PropertyRef Name="idTipoCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CuentasPorUsuario_Cuentas">
+    <End Role="Cuentas" Type="Self.Cuenta" Multiplicity="1" />
+    <End Role="CuentasPorUsuario" Type="Self.CuentasPorUsuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuentas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CuentasPorUsuario">
+        <PropertyRef Name="idCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="Perfiles" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+    <EntitySet Name="Cuentas" EntityType="Self.Cuenta" />
+    <EntitySet Name="CuentasPorUsuarios" EntityType="Self.CuentasPorUsuario" />
+    <EntitySet Name="TiposCuentas" EntityType="Self.TiposCuenta" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CuentasPorUsuario_AspNetUsers" Association="Self.FK_CuentasPorUsuario_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CuentasPorUsuario" EntitySet="CuentasPorUsuarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cuentas_TiposCuentas" Association="Self.FK_Cuentas_TiposCuentas">
+      <End Role="TiposCuentas" EntitySet="TiposCuentas" />
+      <End Role="Cuentas" EntitySet="Cuentas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CuentasPorUsuario_Cuentas" Association="Self.FK_CuentasPorUsuario_Cuentas">
+      <End Role="Cuentas" EntitySet="Cuentas" />
+      <End Role="CuentasPorUsuario" EntitySet="CuentasPorUsuarios" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="Movimientos" EntityType="PerfilModel.Movimiento" />
+    <AssociationSet Name="FK_Movimientos_AspNetUsers" Association="PerfilModel.FK_Movimientos_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Movimiento" EntitySet="Movimientos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimientos_Cuentas1" Association="PerfilModel.FK_Movimientos_Cuentas1">
+      <End Role="Cuenta" EntitySet="Cuentas" />
+      <End Role="Movimiento" EntitySet="Movimientos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimientos_Cuentas2" Association="PerfilModel.FK_Movimientos_Cuentas2">
+      <End Role="Cuenta" EntitySet="Cuentas" />
+      <End Role="Movimiento" EntitySet="Movimientos" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Movimiento">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="idUsuario" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idUsuario" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="idCuentaIngreso" Type="Int64" />
+    <Property Name="idCuentaEgreso" Type="Int64" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="monto" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <NavigationProperty Name="AspNetUser" Relationship="PerfilModel.FK_Movimientos_AspNetUsers" FromRole="Movimiento" ToRole="AspNetUser" />
+    <NavigationProperty Name="Cuenta" Relationship="PerfilModel.FK_Movimientos_Cuentas1" FromRole="Movimiento" ToRole="Cuenta" />
+    <NavigationProperty Name="Cuenta1" Relationship="PerfilModel.FK_Movimientos_Cuentas2" FromRole="Movimiento" ToRole="Cuenta" />
+  </EntityType>
+  <Association Name="FK_Movimientos_AspNetUsers">
+    <End Type="PerfilModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="PerfilModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimientos_Cuentas1">
+    <End Type="PerfilModel.Cuenta" Role="Cuenta" Multiplicity="0..1" />
+    <End Type="PerfilModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuenta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="idCuentaIngreso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimientos_Cuentas2">
+    <End Type="PerfilModel.Cuenta" Role="Cuenta" Multiplicity="0..1" />
+    <End Type="PerfilModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuenta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="idCuentaEgreso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

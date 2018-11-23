@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="31b15ed285c042c89b70baa4c37bec3e" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="PerfilModel.AspNetRole" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="PerfilModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PerfilModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PerfilModel.AspNetUser" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PerfilModel.Cuenta" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PerfilModel.CuentasPorUsuario" Width="1.5" PointX="8.25" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PerfilModel.TiposCuenta" Width="1.5" PointX="10.125" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="PerfilModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="PerfilModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="PerfilModel.FK_CuentasPorUsuario_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="PerfilModel.FK_Cuentas_TiposCuentas" ManuallyRouted="false" />
+        <AssociationConnector Association="PerfilModel.FK_CuentasPorUsuario_Cuentas" ManuallyRouted="false" />
+        <AssociationConnector Association="PerfilModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PerfilModel.Movimiento" Width="1.5" PointX="2.5" PointY="1" />
+        <AssociationConnector Association="PerfilModel.FK_Movimientos_AspNetUsers" />
+        <AssociationConnector Association="PerfilModel.FK_Movimientos_Cuentas1" />
+        <AssociationConnector Association="PerfilModel.FK_Movimientos_Cuentas2" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

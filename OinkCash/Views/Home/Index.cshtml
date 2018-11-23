@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>OinkCash</h1>
+    <p class="lead">
+        OinkCash es una aplicación realizada por estudiantes para aprender a manejar MVC.<br />
+        A su vez contempla el manejo contable para gestionar una economia hogareña y facilita la visualización del los movimientos contables para ayudar fomentar el ahorro.
+    </p>
+    <p class="btn btn-default"> @Html.ActionLink("Leer más","About","Home")</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Comenza!</h2>
+        <p>
+            OinkCash te permite manejar tus gastos de forma mas eficiente al darte visibilidad sobre el uso que realizas de tu dinero.
+        </p>
+        <p class="btn btn-default">@Html.ActionLink("Registrarse", "Register", "Account") </p>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Ya usas OinkCash?</h2>
+        <p>
+            Si ya utilizas la aplicación ingresa para continuar gestionando tus gastos.
+        </p>
+        <br />
+        <p class="btn btn-default">@Html.ActionLink("Iniciar Sesión", "Login", "Account") </p>
+    </div>
+
+</div>

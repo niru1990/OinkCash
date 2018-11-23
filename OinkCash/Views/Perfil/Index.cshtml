@@ -1,0 +1,24 @@
+﻿@model IList<OinkCash.Models.CuentasPorUsuario>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Perfil.cshtml";
+}
+
+<!--<h2>Index</h2>-->
+
+<div class="jumbotron">
+
+    <div id="grafico" style="width:550px;float:left; height:200px; background-color:orange;">
+        <!--Aca va el grafico-->
+        <div id="chart_div"></div>
+    </div>
+
+    <div style="padding-left:400px;">
+        <!-- Acá van las cuentas con mas gastos a la actualidad-->
+        <div style="padding-left:200px;">
+            <ul id="CuentasMontos"></ul>
+        </div>
+    </div>
+    <br />
+
+</div>

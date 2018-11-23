@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="OinkCashModelStoreContainer" CdmEntityContainer="OinkCashEntities">
+    <EntitySetMapping Name="Cuentas">
+      <EntityTypeMapping TypeName="OinkCashModel.Cuenta">
+        <MappingFragment StoreEntitySet="Cuentas">
+          <ScalarProperty Name="idTipoCuenta" ColumnName="idTipoCuenta" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CuentasPorUsuarios">
+      <EntityTypeMapping TypeName="OinkCashModel.CuentasPorUsuario">
+        <MappingFragment StoreEntitySet="CuentasPorUsuarios">
+          <ScalarProperty Name="limite" ColumnName="limite" />
+          <ScalarProperty Name="idCuenta" ColumnName="idCuenta" />
+          <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Movimientos">
+      <EntityTypeMapping TypeName="OinkCashModel.Movimiento">
+        <MappingFragment StoreEntitySet="Movimientos">
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="monto" ColumnName="monto" />
+          <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+          <ScalarProperty Name="idCuenta" ColumnName="idCuenta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoCuentas">
+      <EntityTypeMapping TypeName="OinkCashModel.TipoCuenta">
+        <MappingFragment StoreEntitySet="TipoCuentas">
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuarios">
+      <EntityTypeMapping TypeName="OinkCashModel.Usuario">
+        <MappingFragment StoreEntitySet="Usuarios">
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="nick" ColumnName="nick" />
+          <ScalarProperty Name="email" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="buscar_movimiento" FunctionName="OinkCashModel.Store.buscar_movimiento">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OinkCashModel.buscar_movimiento_Result">
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="reporteMayoresGastosMensuales" FunctionName="OinkCashModel.Store.reporteMayoresGastosMensuales">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="OinkCashModel.reporteMayoresGastosMensuales_Result">
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="monto" ColumnName="monto" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

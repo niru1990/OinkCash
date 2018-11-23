@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OinkCashModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="OinkCashEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cuentas" EntityType="OinkCashModel.Cuenta" />
+    <EntitySet Name="CuentasPorUsuarios" EntityType="OinkCashModel.CuentasPorUsuario" />
+    <EntitySet Name="Movimientos" EntityType="OinkCashModel.Movimiento" />
+    <EntitySet Name="TipoCuentas" EntityType="OinkCashModel.TipoCuenta" />
+    <EntitySet Name="Usuarios" EntityType="OinkCashModel.Usuario" />
+    <AssociationSet Name="FK_Cuentas_TipoCuentas" Association="OinkCashModel.FK_Cuentas_TipoCuentas">
+      <End Role="TipoCuenta" EntitySet="TipoCuentas" />
+      <End Role="Cuenta" EntitySet="Cuentas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CuentasPorUsuarios_Cuentas" Association="OinkCashModel.FK_CuentasPorUsuarios_Cuentas">
+      <End Role="Cuenta" EntitySet="Cuentas" />
+      <End Role="CuentasPorUsuario" EntitySet="CuentasPorUsuarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimientos_Cuentas" Association="OinkCashModel.FK_Movimientos_Cuentas">
+      <End Role="Cuenta" EntitySet="Cuentas" />
+      <End Role="Movimiento" EntitySet="Movimientos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CuentasPorUsuarios_Usuarios" Association="OinkCashModel.FK_CuentasPorUsuarios_Usuarios">
+      <End Role="Usuario" EntitySet="Usuarios" />
+      <End Role="CuentasPorUsuario" EntitySet="CuentasPorUsuarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimientos_Usuarios" Association="OinkCashModel.FK_Movimientos_Usuarios">
+      <End Role="Usuario" EntitySet="Usuarios" />
+      <End Role="Movimiento" EntitySet="Movimientos" />
+    </AssociationSet>
+    <FunctionImport Name="buscar_movimiento" ReturnType="Collection(OinkCashModel.buscar_movimiento_Result)">
+      <Parameter Name="fechaInicial" Mode="In" Type="DateTime" />
+      <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="cuenta" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="reporteMayoresGastosMensuales" ReturnType="Collection(OinkCashModel.reporteMayoresGastosMensuales_Result)">
+      <Parameter Name="fechaInicial" Mode="In" Type="DateTime" />
+      <Parameter Name="fechaFin" Mode="In" Type="DateTime" />
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="Cuenta">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="idTipoCuenta" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="TipoCuenta" Relationship="OinkCashModel.FK_Cuentas_TipoCuentas" FromRole="Cuenta" ToRole="TipoCuenta" />
+    <NavigationProperty Name="CuentasPorUsuarios" Relationship="OinkCashModel.FK_CuentasPorUsuarios_Cuentas" FromRole="Cuenta" ToRole="CuentasPorUsuario" />
+    <NavigationProperty Name="Movimientos" Relationship="OinkCashModel.FK_Movimientos_Cuentas" FromRole="Cuenta" ToRole="Movimiento" />
+  </EntityType>
+  <EntityType Name="CuentasPorUsuario">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+      <PropertyRef Name="idCuenta" />
+    </Key>
+    <Property Name="idUsuario" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="idCuenta" Type="Int64" Nullable="false" />
+    <Property Name="limite" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="Cuenta" Relationship="OinkCashModel.FK_CuentasPorUsuarios_Cuentas" FromRole="CuentasPorUsuario" ToRole="Cuenta" />
+    <NavigationProperty Name="Usuario" Relationship="OinkCashModel.FK_CuentasPorUsuarios_Usuarios" FromRole="CuentasPorUsuario" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="Movimiento">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="idCuenta" Type="Int64" Nullable="false" />
+    <Property Name="idUsuario" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="monto" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Cuenta" Relationship="OinkCashModel.FK_Movimientos_Cuentas" FromRole="Movimiento" ToRole="Cuenta" />
+    <NavigationProperty Name="Usuario" Relationship="OinkCashModel.FK_Movimientos_Usuarios" FromRole="Movimiento" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="TipoCuenta">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Cuentas" Relationship="OinkCashModel.FK_Cuentas_TipoCuentas" FromRole="TipoCuenta" ToRole="Cuenta" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="email" />
+    </Key>
+    <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="nick" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CuentasPorUsuarios" Relationship="OinkCashModel.FK_CuentasPorUsuarios_Usuarios" FromRole="Usuario" ToRole="CuentasPorUsuario" />
+    <NavigationProperty Name="Movimientos" Relationship="OinkCashModel.FK_Movimientos_Usuarios" FromRole="Usuario" ToRole="Movimiento" />
+  </EntityType>
+  <Association Name="FK_Cuentas_TipoCuentas">
+    <End Type="OinkCashModel.TipoCuenta" Role="TipoCuenta" Multiplicity="1" />
+    <End Type="OinkCashModel.Cuenta" Role="Cuenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoCuenta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Cuenta">
+        <PropertyRef Name="idTipoCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CuentasPorUsuarios_Cuentas">
+    <End Type="OinkCashModel.Cuenta" Role="Cuenta" Multiplicity="1" />
+    <End Type="OinkCashModel.CuentasPorUsuario" Role="CuentasPorUsuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuenta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CuentasPorUsuario">
+        <PropertyRef Name="idCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimientos_Cuentas">
+    <End Type="OinkCashModel.Cuenta" Role="Cuenta" Multiplicity="1" />
+    <End Type="OinkCashModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuenta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="idCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CuentasPorUsuarios_Usuarios">
+    <End Type="OinkCashModel.Usuario" Role="Usuario" Multiplicity="1" />
+    <End Type="OinkCashModel.CuentasPorUsuario" Role="CuentasPorUsuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="email" />
+      </Principal>
+      <Dependent Role="CuentasPorUsuario">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimientos_Usuarios">
+    <End Type="OinkCashModel.Usuario" Role="Usuario" Multiplicity="1" />
+    <End Type="OinkCashModel.Movimiento" Role="Movimiento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="email" />
+      </Principal>
+      <Dependent Role="Movimiento">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="buscar_movimiento_Result">
+    <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="MontoTotal" Nullable="true" Precision="38" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="reporteMayoresGastosMensuales_Result">
+    <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
+    <Property Type="Decimal" Name="monto" Nullable="true" Precision="38" Scale="2" />
+  </ComplexType>
+</Schema>

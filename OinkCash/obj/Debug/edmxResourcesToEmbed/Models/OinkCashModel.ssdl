@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OinkCashModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Cuentas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="idTipoCuenta" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CuentasPorUsuarios">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+      <PropertyRef Name="idCuenta" />
+    </Key>
+    <Property Name="idUsuario" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="idCuenta" Type="bigint" Nullable="false" />
+    <Property Name="limite" Type="decimal" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="Movimientos">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="idCuenta" Type="bigint" Nullable="false" />
+    <Property Name="idUsuario" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="monto" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoCuentas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="email" />
+    </Key>
+    <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="nick" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Cuentas_TipoCuentas">
+    <End Role="TipoCuentas" Type="Self.TipoCuentas" Multiplicity="1" />
+    <End Role="Cuentas" Type="Self.Cuentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoCuentas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Cuentas">
+        <PropertyRef Name="idTipoCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CuentasPorUsuarios_Cuentas">
+    <End Role="Cuentas" Type="Self.Cuentas" Multiplicity="1" />
+    <End Role="CuentasPorUsuarios" Type="Self.CuentasPorUsuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuentas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CuentasPorUsuarios">
+        <PropertyRef Name="idCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CuentasPorUsuarios_Usuarios">
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+    <End Role="CuentasPorUsuarios" Type="Self.CuentasPorUsuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="email" />
+      </Principal>
+      <Dependent Role="CuentasPorUsuarios">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimientos_Cuentas">
+    <End Role="Cuentas" Type="Self.Cuentas" Multiplicity="1" />
+    <End Role="Movimientos" Type="Self.Movimientos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cuentas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Movimientos">
+        <PropertyRef Name="idCuenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Movimientos_Usuarios">
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+    <End Role="Movimientos" Type="Self.Movimientos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuarios">
+        <PropertyRef Name="email" />
+      </Principal>
+      <Dependent Role="Movimientos">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="buscar_movimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="fechaInicial" Type="datetime" Mode="In" />
+    <Parameter Name="fechaFin" Type="datetime" Mode="In" />
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+    <Parameter Name="cuenta" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="reporteMayoresGastosMensuales" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="fechaInicial" Type="datetime" Mode="In" />
+    <Parameter Name="fechaFin" Type="datetime" Mode="In" />
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="OinkCashModelStoreContainer">
+    <EntitySet Name="Cuentas" EntityType="Self.Cuentas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CuentasPorUsuarios" EntityType="Self.CuentasPorUsuarios" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Movimientos" EntityType="Self.Movimientos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoCuentas" EntityType="Self.TipoCuentas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Cuentas_TipoCuentas" Association="Self.FK_Cuentas_TipoCuentas">
+      <End Role="TipoCuentas" EntitySet="TipoCuentas" />
+      <End Role="Cuentas" EntitySet="Cuentas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CuentasPorUsuarios_Cuentas" Association="Self.FK_CuentasPorUsuarios_Cuentas">
+      <End Role="Cuentas" EntitySet="Cuentas" />
+      <End Role="CuentasPorUsuarios" EntitySet="CuentasPorUsuarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CuentasPorUsuarios_Usuarios" Association="Self.FK_CuentasPorUsuarios_Usuarios">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="CuentasPorUsuarios" EntitySet="CuentasPorUsuarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimientos_Cuentas" Association="Self.FK_Movimientos_Cuentas">
+      <End Role="Cuentas" EntitySet="Cuentas" />
+      <End Role="Movimientos" EntitySet="Movimientos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Movimientos_Usuarios" Association="Self.FK_Movimientos_Usuarios">
+      <End Role="Usuarios" EntitySet="Usuarios" />
+      <End Role="Movimientos" EntitySet="Movimientos" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
